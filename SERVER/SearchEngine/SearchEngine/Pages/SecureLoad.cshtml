@@ -1,0 +1,30 @@
+﻿@page
+@model SearchEngine.Pages.SecureLoadModel
+@using HtmlAgilityPack
+@{
+    ViewData["Title"] = ""; // Do not add name of site to the title as this may compromise user's safety
+                            // if accessing censored information in their country.
+
+    HtmlWeb web = new HtmlWeb(); // Create a new HtmlWeb instance to load the page
+    HtmlDocument pageContent = web.Load((string)ViewData["targetUrl"]); // Save page to pageContent
+
+    string temp = pageContent.DocumentNode.OuterHtml;
+
+    temp = temp.Replace("/pf/dist/components/combinations/default.css?d=137", "https://www.reuters.com/pf/dist/components/combinations/default.css?d=137");
+
+    string targetTitle = pageContent.DocumentNode.SelectSingleNode("//title").InnerText;
+
+    HtmlDocument formattedContent = new HtmlDocument();
+    formattedContent.LoadHtml(temp);
+}
+    <hr />
+    <h4>@targetTitle</h4>
+    <p>Not all features will work in SecureLoad as external scripts are disabled for security purposes.</p>
+    <p>You will not be able to follow any links on this site as it is loaded in SecureLoad.</p>
+    <p>The Library of Alexandria assumes no responsibility for the content of this site.</p>
+    <hr />
+
+
+    @Html.Raw(formattedContent.DocumentNode.OuterHtml)
+
+

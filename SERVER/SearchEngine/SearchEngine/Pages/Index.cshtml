@@ -1,0 +1,29 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Search the Library of Alexandria</h1>
+    <p>Your journey to the truth starts here</p>
+
+    <hr />
+
+    <form method="post" action="~/Query">
+        <br />
+        <input type="text" name="searchQuery" value="" /><br /><br />
+        <input type="submit" value="Search" class="submit" />
+    </form>
+    <br /><br />
+    <hr />
+    <br /><br />
+    <form method="post" action="~/SecureLoad">
+        <label>Already found what you're looking for and just need to load it privately? Directly access our SecureLoad service below - just copy and paste your URL.</label>
+        <input type="text" name="url" value="" /><br />
+        <input type="submit" value="SecureLoad" class="submit" /><br />
+        <label><i>The Library of Alexandria accepts no responsibility for the contents of the site that will be loaded.</i></label>
+    </form>
+
+    <hr />
+</div>

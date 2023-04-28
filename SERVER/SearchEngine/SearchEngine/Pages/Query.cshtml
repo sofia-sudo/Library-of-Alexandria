@@ -1,0 +1,53 @@
+﻿@page
+@model SearchEngine.Pages.QueryModel
+@using System.Web.Mvc.Html
+@{
+    ViewData["Title"] = "Search";
+}
+
+<style>
+    .inline{
+        display: inline-block;
+    }
+</style>
+
+
+<div class="text-center">
+
+    <form method="post" action="">
+        <br />
+        <input class="inline" type="text" name="searchQuery" value="@ViewData["searchQuery"]" /><br /><br />
+        <input class="inline" type="submit" value="Search"/>
+    </form>
+    <hr/>
+</div>
+
+@{  try
+    {
+        foreach (Result result in ViewData["Results"] as List<Result>)
+        {
+        <div>
+            <h4><a href="@result.URL">@result.title</a></h4>
+            <div>
+                <form method="post" action="~/SecureLoad" class="inline">
+                    <input type="hidden" name="url" value="@result.URL" />
+                    <input type="submit" value="SecureLoad" class="submit" />
+                </form>
+                <p class="inline"><a href="@result.URL"><i>@result.URL</i></a></p>
+            </div>
+            @{ if (result.URL.ToUpper().Contains("BBC"))
+                {
+                        <p style="color:orange;">&#9888;<strong>This organisation commits to impartiality, but is owned by the UK Government. It may publish stories with a bias towards British strategic interests.</strong></p>
+                }
+            }
+            <p>@result.metadesc</p>
+            <hr />
+        </div>
+        }
+    }
+    catch (Exception e)
+    {
+        Html.Raw(@"<p>Failed to resend data to the server. This may be due to one of the reasons below:</p>
+<p>Please re-enter your search query and hit Search. Do not refresh the page.</p>");
+    }
+}
